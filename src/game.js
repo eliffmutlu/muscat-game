@@ -14,16 +14,16 @@
     ctx.imageSmoothingEnabled = false;
 
     // --- IMAGE SPRITES ---
-    const run1 = new Image(); run1.src = "run-1.png";
-    const run2 = new Image(); run2.src = "run-2.png";
-    const run3 = new Image(); run3.src = "run-3.png";
-    const run4 = new Image(); run4.src = "run-4.png";
-    const deadCat = new Image(); deadCat.src = "dead.png";
+    const run1 = new Image(); run1.src = "./run-1.png";
+    const run2 = new Image(); run2.src = "./run-2.png";
+    const run3 = new Image(); run3.src = "./run-3.png";
+    const run4 = new Image(); run4.src = "./run-4.png";
+    const deadCat = new Image(); deadCat.src = "./dead.png";
 
-    const block1 = new Image(); block1.src = "bloke-1.png";
-    const block2 = new Image(); block2.src = "bloke-2.png";
-    const moonImg = new Image(); moonImg.src = "moon.png";
-    const sunImg = new Image(); sunImg.src = "sun.png";
+    const block1 = new Image(); block1.src = "./bloke-1.png";
+    const block2 = new Image(); block2.src = "./bloke-2.png";
+    const moonImg = new Image(); moonImg.src = "./moon.png";
+    const sunImg = new Image(); sunImg.src = "./sun.png";
 
     // --- OYUN DEĞİŞKENLERİ ---
     let speed = 5;
