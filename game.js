@@ -218,53 +218,64 @@
     // --- OYUN DÖNGÜSÜ ---
 
     function update() {
-      if (!gameOver) {
-        // Gece/Gündüz
-        const cycle = Math.floor(score / 10) % 2;
-        isNight = (cycle === 1);
-        if (isNight) document.body.classList.add("night");
-        else document.body.classList.remove("night");
+      // --- ANA OYUN DÖNGÜSÜ ---
+      
+      // KEDİ FİZİĞİ
+      cat.dy += cat.gravity;
+      cat.y += cat.dy;
 
-        // Kedi
-        cat.dy += cat.gravity;
-        cat.y += cat.dy;
-        
-        if (cat.y > 220) {
-          cat.y = 220;
-          cat.dy = 0;
-          cat.grounded = true;
-          cat.jumpCount = 0;
-        }
+      if (cat.y > 220) {
+        cat.y = 220;
+        cat.dy = 0;
+        cat.grounded = true;
+        cat.jumpCount = 0;
+      }
 
-        // Bulutlar
-        clouds.forEach((cloud, index) => {
-          cloud.x -= cloud.speed;
-          if (cloud.x < -150) clouds[index] = generateCloud(canvas.width + 50);
-        });
+      // GECE / GÜNDÜZ DÖNGÜSÜ
+      const cycle = Math.floor(score / 10) % 2;
+      isNight = (cycle === 1);
+      if (isNight) document.body.classList.add("night");
+      else document.body.classList.remove("night");
 
-        // Engeller
-        obstacles.forEach((obs) => {
+      // BULUT HAREKETİ
+      clouds.forEach((cloud, index) => {
+        cloud.x -= cloud.speed;
+        if (cloud.x < -150) clouds[index] = generateCloud(canvas.width + 50);
+      });
+
+      // ENGEL HAREKETİ + SKOR ARTIŞI
+      obstacles.forEach((obs) => {
+
+        // Oyun bittiyse engelleri hareket ettirme ve skor artırma
+        if (!gameOver) {
           obs.x -= speed;
+
+          // Engel ekran dışına çıkınca yenile
           if (obs.x < -50) {
             obs.x = 800 + Math.random() * 400;
             obs.type = Math.random() < 0.5 ? 1 : 2;
             score++;
             speed += 0.1;
           }
+        }
 
-          // Çarpışma
-          if (
-            cat.x < obs.x + obs.width - 15 &&
-            cat.x + cat.width > obs.x + 15 &&
-            cat.y < obs.y + obs.height &&
-            cat.y + cat.height > obs.y
-          ) {
-            handleGameOver();
-          }
-        });
-      }
+        // ÇARPIŞMA KONTROLÜ
+        const hit =
+          cat.x < obs.x + obs.width - 15 &&
+          cat.x + cat.width > obs.x + 15 &&
+          cat.y < obs.y + obs.height &&
+          cat.y + cat.height > obs.y;
 
+        if (hit && !gameOver) {
+          handleGameOver();
+        }
+      });
+
+      // ÇİZİM
       draw();
+
+      // Eğer oyun bittiyse döngüyü DURDURMA, sadece karakteri dead sprite ile çizelim
+      // requestAnimationFrame her zaman çalışsın ki durma hatası oluşmasın
       animationId = requestAnimationFrame(update);
     }
 
