@@ -1,0 +1,306 @@
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* İçeriği dikeyde ortalar */
+  height: 100vh; /* Tam ekran yüksekliği */
+  margin: 0;
+  font-family: 'Press Start 2P', cursive;
+  transition: background-color 1s ease;
+  background-color: #6dc8f3;
+  color: #333;
+  overflow: hidden; /* Sayfa kaydırmayı tamamen kapatır */
+}
+
+body.night {
+  background-color: #1a1a2e;
+  color: #fff;
+}
+
+.game-container {
+  position: relative;
+}
+
+canvas {
+  border: 4px solid #000;
+  background-color: transparent;
+  width: 90vw;
+  max-width: 800px;
+  height: auto;
+  aspect-ratio: 8 / 3;
+  image-rendering: pixelated;
+  box-shadow: 10px 10px 0px rgba(0,0,0,0.2);
+  display: block;
+}
+
+/* Overlay (Game Over & Input) */
+.overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.85);
+  padding: 20px;
+  text-align: center;
+  border: 4px solid #fff;
+  color: #fff;
+  width: 80%;
+  max-width: 400px;
+  z-index: 20;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.overlay h1 {
+  color: #ff5555;
+  margin-bottom: 20px;
+  font-size: 24px;
+  text-shadow: 2px 2px #000;
+}
+
+.overlay input {
+  font-family: 'Press Start 2P', cursive;
+  padding: 10px;
+  margin-bottom: 10px;
+  width: 80%;
+  text-align: center;
+  border: 2px solid #fff;
+  background: #333;
+  color: #fff;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+}
+
+/* Hata Durumu Stili */
+.input-error {
+  border-color: #ff0000 !important;
+  background-color: #3a0000 !important;
+  color: #ff5555 !important;
+  animation: shake 0.4s ease-in-out;
+}
+
+.input-error::placeholder {
+  color: #ff5555;
+  opacity: 0.7;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+.overlay button {
+  font-family: 'Press Start 2P', cursive;
+  padding: 10px 20px;
+  cursor: pointer;
+  background: #ffcc00;
+  border: 2px solid #fff;
+  color: #000;
+  margin-top: 10px;
+  box-shadow: 4px 4px 0 #000;
+}
+
+.overlay button:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 #000;
+}
+
+/* Mobile Controls */
+.mobile-controls {
+  display: none;
+  margin-top: 20px;
+}
+
+.mobile-controls button {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 16px;
+  background-color: #ffcc00;
+  border: 4px solid #000;
+  padding: 20px 40px;
+  box-shadow: 6px 6px 0 #000;
+  color: #000;
+  cursor: pointer;
+}
+
+.mobile-controls button:active {
+  box-shadow: 2px 2px 0 #000;
+  transform: translate(4px, 4px);
+}
+
+/* Leaderboard Styles */
+.leaderboard-section {
+  margin-top: 20px;
+  width: 90vw;
+  max-width: 600px;
+  text-align: center;
+}
+
+.leaderboard-section h2 {
+  font-size: 16px;
+  margin-bottom: 10px;
+  text-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+}
+
+.leaderboard-container {
+  background: rgba(255, 255, 255, 0.9);
+  border: 4px solid #000;
+  padding: 10px;
+  box-shadow: 8px 8px 0 rgba(0,0,0,0.2);
+  
+  /* Scroll Özellikleri */
+  max-height: 150px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #ffcc00 #333;
+}
+
+/* Webkit (Chrome, Safari, Edge) Scrollbar Tasarımı */
+.leaderboard-container::-webkit-scrollbar {
+  width: 12px;
+}
+
+.leaderboard-container::-webkit-scrollbar-track {
+  background: #333;
+  border-left: 2px solid #000;
+}
+
+.leaderboard-container::-webkit-scrollbar-thumb {
+  background-color: #ffcc00;
+  border: 2px solid #000;
+  box-shadow: inset -2px -2px 0 rgba(0,0,0,0.2);
+}
+
+.leaderboard-container::-webkit-scrollbar-thumb:hover {
+  background-color: #ffdd44;
+}
+
+body.night .leaderboard-container {
+  background: #333;
+  border-color: #fff;
+  color: #fff;
+}
+
+#leaderboardList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#leaderboardList li {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 10px;
+  border-bottom: 2px dashed #ccc;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+#leaderboardList li:last-child {
+  border-bottom: none;
+}
+
+#leaderboardList li span.rank {
+  color: #ff5555;
+  margin-right: 10px;
+}
+
+#leaderboardList li span.score {
+  color: #4caf50;
+}
+
+/* Yıldız Stili */
+.stars {
+  color: #ffcc00;
+  margin-left: 5px;
+  text-shadow: 1px 1px 0 #000;
+  letter-spacing: 1px;
+}
+
+@media (max-width: 1024px) {
+  body {
+    overflow-y: auto; /* İçerik taşarsa kaydırmaya izin ver */
+    height: auto;
+    min-height: 100vh; /* En az ekran boyu kadar olsun */
+    justify-content: center; /* Dikeyde ortala */
+    padding: 20px 0; /* Üst ve alttan hafif boşluk */
+  }
+
+  .mobile-controls {
+    display: flex;
+    margin-top: 10px; /* Buton ile oyun arası mesafeyi azalttık */
+  }
+  
+  .mobile-controls button {
+    padding: 15px 30px; /* Butonu biraz daha kompakt yaptık */
+    font-size: 14px;
+  }
+  
+  canvas {
+    width: 100vw;
+    max-width: none;
+    border-width: 2px;
+    box-shadow: none;
+  }
+
+  /* --- MOBİL OVERLAY (GAME OVER) DÜZENLEMESİ --- */
+  .overlay {
+    width: 85%; /* Genişliği biraz artır */
+    max-width: 320px; /* Maksimum genişliği sınırla */
+    padding: 15px; /* İç boşluğu azalt */
+  }
+
+  .overlay h1 {
+    font-size: 18px; /* Başlığı küçült */
+    margin-bottom: 15px;
+  }
+
+  .overlay p {
+    font-size: 12px; /* Skor yazısını küçült */
+    margin-bottom: 15px;
+  }
+
+  .overlay input {
+    font-size: 12px; /* Input yazısını küçült */
+    padding: 8px;
+    width: 90%;
+    margin-bottom: 8px;
+  }
+
+  .overlay button {
+    font-size: 12px; /* Buton yazılarını küçült */
+    padding: 8px 16px;
+    margin-top: 8px;
+  }
+
+  /* Mobil Liderlik Tablosu Optimizasyonu */
+  .leaderboard-section {
+    margin-top: 15px;
+    width: 95vw; /* Genişliği artırıp kenarlara yaydık */
+  }
+
+  .leaderboard-section h2 {
+    font-size: 12px; /* Başlığı küçülttük */
+    margin-bottom: 5px;
+  }
+
+  .leaderboard-container {
+    max-height: 100px; /* Yüksekliği ciddi oranda azalttık (yaklaşık 3-4 satır görünür) */
+    padding: 5px;
+    border-width: 2px; /* Kenarlığı incelttik */
+    box-shadow: 4px 4px 0 rgba(0,0,0,0.2); /* Gölgeyi küçülttük */
+  }
+
+  #leaderboardList li {
+    padding: 4px 5px; /* Satır aralarını sıkılaştırdık */
+    font-size: 10px; /* Yazıyı küçülttük */
+    border-bottom-width: 1px;
+  }
+  
+  /* Mobilde scrollbar daha ince olsun */
+  .leaderboard-container::-webkit-scrollbar {
+    width: 8px;
+  }
+}
